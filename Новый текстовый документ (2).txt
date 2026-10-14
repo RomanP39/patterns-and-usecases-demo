@@ -1,0 +1,46 @@
+@startuml
+class Icon{
+draw(x,y)
+}
+class FileIcon{
++file_type
+FileIcon(Icon)
+draw(x,y)
+}
+class IconFactory{
+-icons{}
+{static} get_icon(file_type)
+}
+class VideoPlayer{
+play(file)
+}
+class AudioPlayer{
+play(file)
+}
+class MediaFacade{
+-video: VideoPlayer
+-audio: AudioPlayer
++play_media(file)
+}
+Icon <|-- FileIcon
+IconFactory o-- Icon
+
+MediaFacade -- VideoPlayer
+MediaFacade --AudioPlayer
+MediaFacade --> FileIcon
+@enduml
+
+
+
+@startuml
+actor Client
+Client -> (Выбрать иконку файла)
+Client -> (Выбрать Видео)
+Client -> (Выбрать Музыку)
+package MediaFacade{
+  usecase "Воспроизвести музыку" as UC1
+  usecase "Воспроизвести видео" as UC2
+}
+(Выбрать Видео) --> UC1 #line:red;line.bold;text:red
+(Выбрать Музыку) --> UC2 #green;line.dashed;text:green 
+@enduml

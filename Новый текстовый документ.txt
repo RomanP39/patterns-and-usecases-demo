@@ -1,0 +1,43 @@
+@startuml
+actor Human
+actor HumanPVZ
+actor Seller
+actor HumanLogic
+actor HumanDeport
+package WB_Покупки{
+Human->(Добавить в корзину)
+Human->(Выбрать ПВЗ)
+Human->(Выбрать способ оплаты)
+Human->(Купить)
+Human->(Выбрать способ получения)
+Human->(Выбрать кол-во)
+Human->(Добавить в избранное)
+Human->(Получить штрих-код для получения товара)
+}
+package WB_ПВЗ{
+HumanPVZ->(Просканировать товар)
+HumanPVZ->(Принять товар)
+HumanPVZ->(Оформить возврат)
+(Оформить возврат) --|> (Указать причину возврата)
+HumanPVZ->(Выдача товара)
+(Выдача товара) --|> (Проверка способа оплаты)
+}
+package WB_Partners{
+Seller->(Создать карточку товара)
+Seller->(Выбрать способл отгрузки товара)
+Seller->(Получение прибыли)
+}
+package WB_Курьер{
+HumanLogic->(Составлять маршрут)
+note "ФБО ФБС отгрузка на почта россии" as N1
+(Составлять маршрут) .. N1
+HumanDeport->(Сканировать товар)
+HumanDeport->(Собирать заказ)
+}
+
+(Получить штрих-код для получения товара) --> (Просканировать товар) #line:red;line.bold;text:red
+(Выбрать способ оплаты) --> (Проверка способа оплаты) #line:red;line.bold;text:red
+(Выбрать способ получения) --> (Составлять маршрут) #green;line.dashed;text:green
+(Купить) -->(Собирать заказ)   #blue;line.dotted;text:blue
+(Собирать заказ)--> (Принять товар) #blue;line.dotted;text:blue
+@enduml
